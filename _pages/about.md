@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: PhD Student, Department of Computer Science at the University of Illinois at Urbana-Champaign<br>tomh2@illinois.edu
+subtitle: PhD Student, Department of Computer Science at the University of Illinois at Urbana-Champaign<br><a href = "mailto: tomh2@illinois.edu">tomh2@illinois.edu</a>
 
 profile:
   align: right
@@ -16,8 +16,8 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: false  # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I began my PhD studies in August 2021, immediately after graduating with a BS in Computer Science from the University of Tennessee at Chattanooga (UTC). My research career started at the UTC SimCenter, a research center focused on applied computational science and engineering, when I was about halfway through my undergraduate studies. My research with the SimCenter resulted in several published papers in the fields of distibuted computing, message passing, and applied knot theory. Much of this research was done in collaboration with Oak Ridge National Laboratory and Los Alamos National Laboratory, and I was an intern at Los Alamos during the summers of 2020 and 2021.
+
+During my first semester of grad school, I joined the [Parasol Lab](https://parasollab.web.illinois.edu/) as a student of Dr. Lawrence Rauchwerger. Soon after, I began jointly working with the Parasol Lab and the [Center for Exascale-Enabled Scramjet Design](https://ceesd.illinois.edu/), a project of the National Center for Supercomputing Applications (NCSA). My work for these labs involves generating, scheduling, and executing high-performance C++ code from a Python-based multi-physics simulator. My other research interests include MPI developement and heterogeneous computing.
 
 Put your address / P.O. box / other info right below your picture. You can also disable any these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
-
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
