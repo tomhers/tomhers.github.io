@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: PhD Student, Department of Computer Science at the University of Illinois at Urbana-Champaign<br><a href = "mailto: tomh2@illinois.edu">tomh2@illinois.edu</a>
+subtitle: PhD Student, Department of Computer Science at the University of Illinois at Urbana-Champaign
 
 profile:
   align: right
