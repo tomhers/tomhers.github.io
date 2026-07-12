@@ -1,8 +1,20 @@
 [
   {
     "category": "nature",
+    "src": "images/nature/big-sur--2023-09.jpg",
+    "location": "Big Sur",
+    "date": "Sep 2023"
+  },
+  {
+    "category": "nature",
     "src": "images/nature/point-reyes--2023-10.jpg",
     "location": "Point Reyes",
     "date": "Oct 2023"
+  },
+  {
+    "category": "city",
+    "src": "images/city/chicago--2018-07.jpg",
+    "location": "Chicago",
+    "date": "Jul 2018"
   }
 ]
