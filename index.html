@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Name — Landscape Photography</title>
-<meta name="description" content="Landscape and nature photography portfolio.">
+<title>Your Name — Nature & City Photography</title>
+<meta name="description" content="Nature and city photography portfolio.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -184,21 +184,160 @@
   }
   .photo.in-view { opacity: 1; transform: translateY(0); }
 
-  .photo:nth-child(1) { grid-column: span 7; aspect-ratio: 16/10; background-image: linear-gradient(135deg,#E7ECE6,#B7C7BC 55%,#84988A); }
-  .photo:nth-child(2) { grid-column: span 5; background-image: linear-gradient(160deg,#E3E7E9,#AEC0C4 60%,#7C959B); }
-  .photo:nth-child(3) { grid-column: span 5; background-image: linear-gradient(200deg,#ECE7DE,#CBBFA6 60%,#9C8E71); }
-  .photo:nth-child(4) { grid-column: span 7; aspect-ratio: 16/10; background-image: linear-gradient(120deg,#DDE6E1,#A9C0B4 55%,#71897A); }
-  .photo:nth-child(5) { grid-column: span 12; aspect-ratio: 21/9; background-image: linear-gradient(100deg,#E9EDE9,#C3D0C6 45%,#8FA398 80%,#5E7568); }
-  .photo:nth-child(6) { grid-column: span 6; background-image: linear-gradient(150deg,#E5E3DC,#C9C2AC 55%,#A0977A); }
-  .photo:nth-child(7) { grid-column: span 6; background-image: linear-gradient(170deg,#DEE8EA,#AFC7CB 55%,#7B9BA0); }
+  /* size variants — assigned by class, not position, so the grid still
+     reads well no matter which photos are hidden by the filter */
+  .photo.size-a { grid-column: span 7; aspect-ratio: 16/10; }
+  .photo.size-b { grid-column: span 5; }
+  .photo.size-c { grid-column: span 5; }
+  .photo.size-d { grid-column: span 7; aspect-ratio: 16/10; }
+  .photo.size-e { grid-column: span 12; aspect-ratio: 21/9; }
+  .photo.size-f { grid-column: span 6; }
+  .photo.size-g { grid-column: span 6; }
+
+  .photo[data-category="nature"].size-a { background-image: linear-gradient(135deg,#E7ECE6,#B7C7BC 55%,#84988A); }
+  .photo[data-category="nature"].size-b { background-image: linear-gradient(160deg,#E3E7E9,#AEC0C4 60%,#7C959B); }
+  .photo[data-category="nature"].size-c { background-image: linear-gradient(200deg,#ECE7DE,#CBBFA6 60%,#9C8E71); }
+  .photo[data-category="nature"].size-d { background-image: linear-gradient(120deg,#DDE6E1,#A9C0B4 55%,#71897A); }
+  .photo[data-category="nature"].size-e { background-image: linear-gradient(100deg,#E9EDE9,#C3D0C6 45%,#8FA398 80%,#5E7568); }
+  .photo[data-category="nature"].size-f { background-image: linear-gradient(150deg,#E5E3DC,#C9C2AC 55%,#A0977A); }
+  .photo[data-category="nature"].size-g { background-image: linear-gradient(170deg,#DEE8EA,#AFC7CB 55%,#7B9BA0); }
+
+  .photo[data-category="city"].size-a { background-image: linear-gradient(135deg,#E7E8EA,#B6BCC4 55%,#7C8896); }
+  .photo[data-category="city"].size-b { background-image: linear-gradient(160deg,#EAE6E1,#C9BEAE 60%,#A08F73); }
+  .photo[data-category="city"].size-c { background-image: linear-gradient(200deg,#E4E7EA,#AAB8C4 60%,#71879C); }
+  .photo[data-category="city"].size-d { background-image: linear-gradient(120deg,#E9E9E6,#C2C0B4 55%,#93907B); }
+  .photo[data-category="city"].size-f { background-image: linear-gradient(150deg,#E6E9EA,#B4C0C6 55%,#7E97A0); }
+  .photo[data-category="city"].size-g { background-image: linear-gradient(170deg,#EAE7E2,#C7BDA9 55%,#9C8B6C); }
+
+  /* toggle */
+
+  .toggle {
+    display: inline-flex;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .toggle-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--stone);
+    background: none;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .toggle-btn.active {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .toggle-btn:hover:not(.active) { color: var(--ink); }
+
+  .filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .search {
+    position: relative;
+    width: 260px;
+    max-width: 100%;
+  }
+
+  .search input {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--hairline);
+    padding: 8px 22px 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .search input::placeholder { color: var(--stone); }
+  .search input:focus { border-color: var(--moss); }
+
+  .search::after {
+    content: "→";
+    position: absolute;
+    right: 0;
+    top: 8px;
+    font-size: 12px;
+    color: var(--stone);
+    pointer-events: none;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image: linear-gradient(150deg, #E7E7E1, #C7C9BF 55%, #96998C);
+    text-align: center;
+  }
+
+  .photo.placeholder .missing {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: #40453B;
+    background: rgba(255,255,255,0.55);
+    padding: 6px 10px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+
+  .loading-state,
+  .empty-state {
+    grid-column: 1 / -1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--stone);
+    text-transform: uppercase;
+    padding: 40px 0;
+  }
+
+  .empty-state { display: none; }
+  .empty-state.show { display: block; }
+
+  .no-results {
+    grid-column: 1 / -1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--stone);
+    text-transform: uppercase;
+    padding: 40px 0;
+    display: none;
+  }
+  .no-results.show { display: block; }
 
   .photo .caption {
     position: absolute;
     left: 0; right: 0; bottom: 0;
     padding: 18px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
     background: linear-gradient(0deg, rgba(15,18,14,0.55) 0%, rgba(15,18,14,0) 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -206,18 +345,20 @@
   .photo:hover .caption { opacity: 1; }
 
   .caption .loc {
+    display: block;
     font-family: 'Big Shoulders Display', sans-serif;
     text-transform: uppercase;
     font-size: 15px;
     letter-spacing: 0.03em;
     color: #fff;
   }
-  .caption .data {
+  .caption .date {
+    display: block;
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     letter-spacing: 0.04em;
     color: rgba(255,255,255,0.8);
-    text-align: right;
+    margin-top: 3px;
   }
 
   /* ---------- about ---------- */
@@ -278,17 +419,11 @@
   @media (max-width: 760px) {
     section { padding: 80px 0; }
     .grid { gap: 18px; }
-    .photo,
-    .photo:nth-child(1),
-    .photo:nth-child(2),
-    .photo:nth-child(3),
-    .photo:nth-child(4),
-    .photo:nth-child(5),
-    .photo:nth-child(6),
-    .photo:nth-child(7) {
+    .photo {
       grid-column: span 12;
       aspect-ratio: 4/5;
     }
+    .toggle { margin-top: 4px; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
     .hero-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
     .hero-meta { text-align: left; }
@@ -313,7 +448,7 @@
 
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-title display">Landscape<br>& Nature</div>
+      <div class="hero-title display">Nature<br>& City</div>
       <div class="hero-meta">
         FIELD NOTES<br>
         SELECTED WORKS<br>
@@ -327,19 +462,23 @@
     <div class="wrap">
       <div class="section-head">
         <h2 class="display">Selected&nbsp;Work</h2>
-        <span class="eyebrow">01 — Portfolio</span>
+        <div class="toggle" role="group" aria-label="Filter by category">
+          <button type="button" class="toggle-btn active" data-filter="nature">Nature</button>
+          <button type="button" class="toggle-btn" data-filter="city">City</button>
+        </div>
       </div>
 
-      <div class="grid">
-        <!-- Replace each .photo background-image with your own photo, e.g.:
-             style="background-image:url('images/01-rainier.jpg')" -->
-        <div class="photo"><div class="caption"><span class="loc">Mount Rainier</span><span class="data">46.8523°N · DAWN · JUL 2026</span></div></div>
-        <div class="photo"><div class="caption"><span class="loc">Big Sur Coast</span><span class="data">36.2704°N · DUSK · MAY 2026</span></div></div>
-        <div class="photo"><div class="caption"><span class="loc">Painted Hills</span><span class="data">44.6531°N · MIDDAY · APR 2026</span></div></div>
-        <div class="photo"><div class="caption"><span class="loc">Olympic Rainforest</span><span class="data">47.8021°N · OVERCAST · MAR 2026</span></div></div>
-        <div class="photo"><div class="caption"><span class="loc">Columbia River Gorge</span><span class="data">45.7159°N · GOLDEN HOUR · FEB 2026</span></div></div>
-        <div class="photo"><div class="caption"><span class="loc">Eastern Sierra</span><span class="data">37.7358°N · BLUE HOUR · JAN 2026</span></div></div>
-        <div class="photo"><div class="caption"><span class="loc">Point Reyes</span><span class="data">38.0696°N · FOG · DEC 2025</span></div></div>
+      <div class="filter-row">
+        <span class="eyebrow">01 — Portfolio</span>
+        <div class="search">
+          <input type="text" id="location-search" placeholder="Search by location…" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="grid" id="photo-grid">
+        <p class="loading-state" id="loading-state">Loading photos…</p>
+        <p class="empty-state" id="empty-state">No photos yet — add files to images/nature/ or images/city/ and push. See README for the naming convention.</p>
+        <p class="no-results" id="no-results">No photos match that search.</p>
       </div>
     </div>
   </section>
@@ -373,17 +512,112 @@
   </footer>
 
   <script>
-    // Simple reveal-on-scroll for the work grid — a quiet fade/rise, no bounce.
-    const photos = document.querySelectorAll('.photo');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          io.unobserve(entry.target);
-        }
+    const SIZE_CYCLE = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
+    const grid = document.getElementById('photo-grid');
+    const loadingState = document.getElementById('loading-state');
+    const emptyState = document.getElementById('empty-state');
+    const noResults = document.getElementById('no-results');
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const searchInput = document.getElementById('location-search');
+    const state = { category: 'nature', query: '' };
+
+    function buildPhotoEl(item, index) {
+      const el = document.createElement('div');
+      el.className = `photo size-${SIZE_CYCLE[index % SIZE_CYCLE.length]}`;
+      el.dataset.category = item.category;
+
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = item.location;
+      img.loading = 'lazy';
+      img.onerror = () => {
+        img.remove();
+        el.classList.add('placeholder');
+        const missing = document.createElement('span');
+        missing.className = 'missing';
+        missing.textContent = item.src;
+        el.appendChild(missing);
+      };
+
+      const caption = document.createElement('div');
+      caption.className = 'caption';
+      caption.innerHTML = `<span class="loc">${item.location}</span>` +
+        (item.date ? `<span class="date">${item.date}</span>` : '');
+
+      el.appendChild(img);
+      el.appendChild(caption);
+      return el;
+    }
+
+    function setupRevealAnimation(photos) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      photos.forEach(p => io.observe(p));
+    }
+
+    function applyFilters(photos) {
+      let visibleCount = 0;
+      photos.forEach(p => {
+        const loc = p.querySelector('.loc').textContent.toLowerCase();
+        const matchesQuery = state.query === '' || loc.includes(state.query);
+        // a search takes priority over the category toggle so you can find
+        // a place even if you're not sure which category it's filed under
+        const matchesCategory = state.query !== '' || p.dataset.category === state.category;
+        const visible = matchesQuery && matchesCategory;
+        p.style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
       });
-    }, { threshold: 0.15 });
-    photos.forEach(p => io.observe(p));
+      noResults.classList.toggle('show', visibleCount === 0);
+    }
+
+    function wireControls(photos) {
+      toggleButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.category = btn.dataset.filter;
+          state.query = '';
+          searchInput.value = '';
+          toggleButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          applyFilters(photos);
+        });
+      });
+
+      searchInput.addEventListener('input', () => {
+        state.query = searchInput.value.trim().toLowerCase();
+        toggleButtons.forEach(b => b.classList.toggle('active', state.query === '' && b.dataset.filter === state.category));
+        applyFilters(photos);
+      });
+
+      applyFilters(photos);
+    }
+
+    fetch('images.json')
+      .then(res => res.json())
+      .then(items => {
+        loadingState.remove();
+        if (!items.length) {
+          emptyState.classList.add('show');
+          return;
+        }
+        const fragment = document.createDocumentFragment();
+        items.forEach((item, index) => fragment.appendChild(buildPhotoEl(item, index)));
+        grid.appendChild(fragment);
+
+        const photos = document.querySelectorAll('.photo');
+        setupRevealAnimation(photos);
+        wireControls(photos);
+      })
+      .catch(err => {
+        loadingState.textContent = 'Could not load images.json — check the file exists and you\'re viewing this over http(s), not file://.';
+        console.error(err);
+      });
   </script>
 
 </body>
