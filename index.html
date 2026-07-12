@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Landscape Photography</title>
+<meta name="description" content="Landscape and nature photography portfolio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --bg: #FAFAF7;
+    --ink: #21261F;
+    --stone: #82877D;
+    --moss: #5C6B54;
+    --hairline: #E2E1D8;
+    --paper: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .display {
+    font-family: 'Big Shoulders Display', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.92;
+  }
+
+  /* ---------- header ---------- */
+
+  header.site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 40;
+    padding: 26px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: difference;
+  }
+
+  .wordmark {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-left: 28px;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  nav a:hover { opacity: 1; }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    height: 100vh;
+    min-height: 560px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    background:
+      linear-gradient(180deg, rgba(20,26,20,0.15) 0%, rgba(20,26,20,0.35) 100%),
+      linear-gradient(140deg, #D8E2DC 0%, #B9C9C2 35%, #8FA79B 65%, #6F887C 100%);
+    overflow: hidden;
+  }
+
+  .hero::after {
+    /* horizon line */
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    top: 58%;
+    height: 1px;
+    background: rgba(255,255,255,0.55);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 32px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: #fff;
+  }
+
+  .hero-title {
+    font-size: clamp(48px, 9vw, 132px);
+  }
+
+  .hero-meta {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 22px;
+    left: 32px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+  }
+
+  /* ---------- section headings ---------- */
+
+  section { padding: 120px 0; }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 20px;
+    margin-bottom: 56px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(28px, 4vw, 44px);
+  }
+
+  /* ---------- work grid ---------- */
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 28px;
+  }
+
+  .photo {
+    position: relative;
+    grid-column: span 6;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .photo.in-view { opacity: 1; transform: translateY(0); }
+
+  .photo:nth-child(1) { grid-column: span 7; aspect-ratio: 16/10; background-image: linear-gradient(135deg,#E7ECE6,#B7C7BC 55%,#84988A); }
+  .photo:nth-child(2) { grid-column: span 5; background-image: linear-gradient(160deg,#E3E7E9,#AEC0C4 60%,#7C959B); }
+  .photo:nth-child(3) { grid-column: span 5; background-image: linear-gradient(200deg,#ECE7DE,#CBBFA6 60%,#9C8E71); }
+  .photo:nth-child(4) { grid-column: span 7; aspect-ratio: 16/10; background-image: linear-gradient(120deg,#DDE6E1,#A9C0B4 55%,#71897A); }
+  .photo:nth-child(5) { grid-column: span 12; aspect-ratio: 21/9; background-image: linear-gradient(100deg,#E9EDE9,#C3D0C6 45%,#8FA398 80%,#5E7568); }
+  .photo:nth-child(6) { grid-column: span 6; background-image: linear-gradient(150deg,#E5E3DC,#C9C2AC 55%,#A0977A); }
+  .photo:nth-child(7) { grid-column: span 6; background-image: linear-gradient(170deg,#DEE8EA,#AFC7CB 55%,#7B9BA0); }
+
+  .photo .caption {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background: linear-gradient(0deg, rgba(15,18,14,0.55) 0%, rgba(15,18,14,0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .photo:hover .caption { opacity: 1; }
+
+  .caption .loc {
+    font-family: 'Big Shoulders Display', sans-serif;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    color: #fff;
+  }
+  .caption .data {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.8);
+    text-align: right;
+  }
+
+  /* ---------- about ---------- */
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  .about-photo {
+    aspect-ratio: 3/4;
+    background-image: linear-gradient(160deg,#E7EAE4,#B9C7B9 55%,#87977D);
+  }
+
+  .about-text p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: #3A3F36;
+    max-width: 52ch;
+  }
+  .about-text p + p { margin-top: 20px; }
+
+  /* ---------- footer ---------- */
+
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 40px 0 56px;
+  }
+
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-right: 24px;
+  }
+  .footer-links a:hover { color: var(--moss); }
+
+  .copyright {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--stone);
+  }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 760px) {
+    section { padding: 80px 0; }
+    .grid { gap: 18px; }
+    .photo,
+    .photo:nth-child(1),
+    .photo:nth-child(2),
+    .photo:nth-child(3),
+    .photo:nth-child(4),
+    .photo:nth-child(5),
+    .photo:nth-child(6),
+    .photo:nth-child(7) {
+      grid-column: span 12;
+      aspect-ratio: 4/5;
+    }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .hero-meta { text-align: left; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .photo { transition: none; opacity: 1; transform: none; }
+  }
+
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wordmark">Your Name</div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-title display">Landscape<br>& Nature</div>
+      <div class="hero-meta">
+        FIELD NOTES<br>
+        SELECTED WORKS<br>
+        2020 — 2026
+      </div>
+    </div>
+    <div class="scroll-cue">Scroll ↓</div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="display">Selected&nbsp;Work</h2>
+        <span class="eyebrow">01 — Portfolio</span>
+      </div>
+
+      <div class="grid">
+        <!-- Replace each .photo background-image with your own photo, e.g.:
+             style="background-image:url('images/01-rainier.jpg')" -->
+        <div class="photo"><div class="caption"><span class="loc">Mount Rainier</span><span class="data">46.8523°N · DAWN · JUL 2026</span></div></div>
+        <div class="photo"><div class="caption"><span class="loc">Big Sur Coast</span><span class="data">36.2704°N · DUSK · MAY 2026</span></div></div>
+        <div class="photo"><div class="caption"><span class="loc">Painted Hills</span><span class="data">44.6531°N · MIDDAY · APR 2026</span></div></div>
+        <div class="photo"><div class="caption"><span class="loc">Olympic Rainforest</span><span class="data">47.8021°N · OVERCAST · MAR 2026</span></div></div>
+        <div class="photo"><div class="caption"><span class="loc">Columbia River Gorge</span><span class="data">45.7159°N · GOLDEN HOUR · FEB 2026</span></div></div>
+        <div class="photo"><div class="caption"><span class="loc">Eastern Sierra</span><span class="data">37.7358°N · BLUE HOUR · JAN 2026</span></div></div>
+        <div class="photo"><div class="caption"><span class="loc">Point Reyes</span><span class="data">38.0696°N · FOG · DEC 2025</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="display">About</h2>
+        <span class="eyebrow">02 — Notes</span>
+      </div>
+      <div class="about-grid">
+        <div class="about-photo"><!-- portrait or behind-the-scenes shot goes here --></div>
+        <div class="about-text">
+          <p>Replace this paragraph with a short note on how you approach landscape photography — what draws you outdoors, the light or places you return to, the gear or process behind the work.</p>
+          <p>Keep it brief. A portfolio's job is to let the photographs speak; a couple of honest sentences here is usually enough.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-row">
+        <div class="footer-links">
+          <a href="mailto:you@example.com">Email</a>
+          <a href="https://instagram.com/yourhandle">Instagram</a>
+        </div>
+        <div class="copyright">© 2026 Your Name. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple reveal-on-scroll for the work grid — a quiet fade/rise, no bounce.
+    const photos = document.querySelectorAll('.photo');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    photos.forEach(p => io.observe(p));
+  </script>
+
+</body>
+</html>
