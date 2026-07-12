@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "category": "nature",
+    "src": "images/nature/point-reyes--2023-10.jpg",
+    "location": "Point Reyes",
+    "date": "Oct 2023"
+  }
+]
