@@ -1,6 +1,12 @@
 [
   {
     "category": "nature",
+    "src": "images/nature/auburn--2023-07.jpg",
+    "location": "Auburn",
+    "date": "Jul 2023"
+  },
+  {
+    "category": "nature",
     "src": "images/nature/big-sur--2023-09.jpg",
     "location": "Big Sur",
     "date": "Sep 2023"
@@ -12,9 +18,123 @@
     "date": "Oct 2023"
   },
   {
+    "category": "nature",
+    "src": "images/nature/san-jose--2023-04.jpg",
+    "location": "San Jose",
+    "date": "Apr 2023"
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-2.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-3.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-4.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-5.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-6.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-7.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02-8.jpg",
+    "location": "Yosemite",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/yosemite--2025-02.jpg",
+    "location": "Yosemite",
+    "date": "Feb 2025"
+  },
+  {
+    "category": "city",
+    "src": "images/city/bangkok--2025-01-2.jpg",
+    "location": "Bangkok",
+    "date": ""
+  },
+  {
+    "category": "city",
+    "src": "images/city/bangkok--2025-01.jpg",
+    "location": "Bangkok",
+    "date": "Jan 2025"
+  },
+  {
+    "category": "city",
+    "src": "images/city/chiang-mai--2025-01.jpg",
+    "location": "Chiang Mai",
+    "date": "Jan 2025"
+  },
+  {
     "category": "city",
     "src": "images/city/chicago--2018-07.jpg",
     "location": "Chicago",
     "date": "Jul 2018"
+  },
+  {
+    "category": "city",
+    "src": "images/city/chicago--2024-09.jpg",
+    "location": "Chicago",
+    "date": "Sep 2024"
+  },
+  {
+    "category": "city",
+    "src": "images/city/san-francisco--2021-11-2.jpg",
+    "location": "San Francisco",
+    "date": ""
+  },
+  {
+    "category": "city",
+    "src": "images/city/san-francisco--2021-11.jpg",
+    "location": "San Francisco",
+    "date": "Nov 2021"
+  },
+  {
+    "category": "city",
+    "src": "images/city/san-francisco--2023-06-2.jpg",
+    "location": "San Francisco",
+    "date": ""
+  },
+  {
+    "category": "city",
+    "src": "images/city/san-francisco--2023-06.jpg",
+    "location": "San Francisco",
+    "date": "Jun 2023"
+  },
+  {
+    "category": "city",
+    "src": "images/city/thailand--2025-01-2.jpg",
+    "location": "Thailand",
+    "date": ""
+  },
+  {
+    "category": "city",
+    "src": "images/city/thailand--2025-01.jpg",
+    "location": "Thailand",
+    "date": "Jan 2025"
   }
 ]

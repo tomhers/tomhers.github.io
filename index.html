@@ -56,107 +56,100 @@
   /* ---------- header ---------- */
 
   header.site-header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
+    position: sticky;
+    top: 0;
     z-index: 40;
-    padding: 26px 32px;
+    padding: 14px 28px 12px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    mix-blend-mode: difference;
+    background: rgba(250, 250, 247, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(33, 38, 31, 0.08);
   }
 
   .wordmark {
     font-family: 'Big Shoulders Display', sans-serif;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--ink);
+    text-align: center;
   }
 
   nav a {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #fff;
-    margin-left: 28px;
-    opacity: 0.85;
-    transition: opacity 0.2s ease;
+    display: none;
   }
   nav a:hover { opacity: 1; }
 
   /* ---------- hero ---------- */
 
   .hero {
-    height: 100vh;
-    min-height: 560px;
+    min-height: 0;
+    padding: 0;
     position: relative;
     display: flex;
-    align-items: flex-end;
-    background:
-      linear-gradient(180deg, rgba(20,26,20,0.15) 0%, rgba(20,26,20,0.35) 100%),
-      linear-gradient(140deg, #D8E2DC 0%, #B9C9C2 35%, #8FA79B 65%, #6F887C 100%);
-    overflow: hidden;
+    align-items: stretch;
+    background: transparent;
+    overflow: visible;
   }
 
   .hero::after {
-    /* horizon line */
-    content: "";
-    position: absolute;
-    left: 0; right: 0;
-    top: 58%;
-    height: 1px;
-    background: rgba(255,255,255,0.55);
+    display: none;
   }
 
   .hero-inner {
     position: relative;
     z-index: 2;
     width: 100%;
-    padding: 0 32px 56px;
+    padding: 0;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    color: #fff;
+    justify-content: flex-end;
+    align-items: center;
+    color: var(--ink);
   }
 
   .hero-title {
-    font-size: clamp(48px, 9vw, 132px);
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 0.9;
+    color: rgba(33, 38, 31, 0.95);
+    letter-spacing: -0.04em;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    visibility: hidden;
   }
 
   .hero-meta {
-    text-align: right;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: rgba(255,255,255,0.85);
-    line-height: 1.6;
+    display: none;
   }
 
   .scroll-cue {
     position: absolute;
-    bottom: 22px;
+    bottom: 18px;
     left: 32px;
     z-index: 2;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.75);
+    color: var(--stone);
     text-transform: uppercase;
+    display: none;
   }
 
   /* ---------- section headings ---------- */
 
-  section { padding: 120px 0; }
+  section { padding: 80px 0; }
 
   .section-head {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     border-bottom: 1px solid var(--hairline);
-    padding-bottom: 20px;
-    margin-bottom: 56px;
+    padding-bottom: 18px;
+    margin-bottom: 16px;
+    display: none;
   }
 
   .section-head h2 {
@@ -166,48 +159,37 @@
   /* ---------- work grid ---------- */
 
   .grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    align-items: center;
   }
 
   .photo {
     position: relative;
-    grid-column: span 6;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
+    width: fit-content;
+    max-width: 100%;
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .photo.in-view { opacity: 1; transform: translateY(0); }
 
-  /* size variants — assigned by class, not position, so the grid still
-     reads well no matter which photos are hidden by the filter */
-  .photo.size-a { grid-column: span 7; aspect-ratio: 16/10; }
-  .photo.size-b { grid-column: span 5; }
-  .photo.size-c { grid-column: span 5; }
-  .photo.size-d { grid-column: span 7; aspect-ratio: 16/10; }
-  .photo.size-e { grid-column: span 12; aspect-ratio: 21/9; }
-  .photo.size-f { grid-column: span 6; }
-  .photo.size-g { grid-column: span 6; }
+  .photo.size-a,
+  .photo.size-b,
+  .photo.size-c,
+  .photo.size-d,
+  .photo.size-e,
+  .photo.size-f,
+  .photo.size-g {
+    width: fit-content;
+    max-width: min(100%, 1180px);
+  }
 
-  .photo[data-category="nature"].size-a { background-image: linear-gradient(135deg,#E7ECE6,#B7C7BC 55%,#84988A); }
-  .photo[data-category="nature"].size-b { background-image: linear-gradient(160deg,#E3E7E9,#AEC0C4 60%,#7C959B); }
-  .photo[data-category="nature"].size-c { background-image: linear-gradient(200deg,#ECE7DE,#CBBFA6 60%,#9C8E71); }
-  .photo[data-category="nature"].size-d { background-image: linear-gradient(120deg,#DDE6E1,#A9C0B4 55%,#71897A); }
-  .photo[data-category="nature"].size-e { background-image: linear-gradient(100deg,#E9EDE9,#C3D0C6 45%,#8FA398 80%,#5E7568); }
-  .photo[data-category="nature"].size-f { background-image: linear-gradient(150deg,#E5E3DC,#C9C2AC 55%,#A0977A); }
-  .photo[data-category="nature"].size-g { background-image: linear-gradient(170deg,#DEE8EA,#AFC7CB 55%,#7B9BA0); }
-
-  .photo[data-category="city"].size-a { background-image: linear-gradient(135deg,#E7E8EA,#B6BCC4 55%,#7C8896); }
-  .photo[data-category="city"].size-b { background-image: linear-gradient(160deg,#EAE6E1,#C9BEAE 60%,#A08F73); }
-  .photo[data-category="city"].size-c { background-image: linear-gradient(200deg,#E4E7EA,#AAB8C4 60%,#71879C); }
-  .photo[data-category="city"].size-d { background-image: linear-gradient(120deg,#E9E9E6,#C2C0B4 55%,#93907B); }
-  .photo[data-category="city"].size-f { background-image: linear-gradient(150deg,#E6E9EA,#B4C0C6 55%,#7E97A0); }
-  .photo[data-category="city"].size-g { background-image: linear-gradient(170deg,#EAE7E2,#C7BDA9 55%,#9C8B6C); }
+  .photo[data-category="nature"],
+  .photo[data-category="city"] {
+    background: transparent;
+  }
 
   /* toggle */
 
@@ -217,17 +199,18 @@
     border-radius: 999px;
     padding: 4px;
     gap: 4px;
+    background: rgba(255,255,255,0.4);
   }
 
   .toggle-btn {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--stone);
     background: none;
     border: none;
-    padding: 8px 18px;
+    padding: 7px 14px;
     border-radius: 999px;
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
@@ -245,13 +228,14 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 24px;
+    gap: 12px;
+    margin-top: 2px;
+    margin-bottom: 14px;
   }
 
   .search {
     position: relative;
-    width: 260px;
+    width: 210px;
     max-width: 100%;
   }
 
@@ -260,9 +244,9 @@
     background: none;
     border: none;
     border-bottom: 1px solid var(--hairline);
-    padding: 8px 22px 8px 0;
+    padding: 6px 18px 6px 0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 10px;
     letter-spacing: 0.04em;
     color: var(--ink);
     outline: none;
@@ -282,14 +266,18 @@
   }
 
   .photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #f0f0ee;
+    box-shadow: 0 0 0 1px rgba(33, 38, 31, 0.03);
   }
 
   .photo.placeholder {
     display: flex;
+    min-height: 220px;
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -335,53 +323,46 @@
   .no-results.show { display: block; }
 
   .photo .caption {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 18px 20px;
-    background: linear-gradient(0deg, rgba(15,18,14,0.55) 0%, rgba(15,18,14,0) 100%);
-    opacity: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 2px 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
   }
-  .photo:hover .caption { opacity: 1; }
 
   .caption .loc {
-    display: block;
+    display: inline-block;
     font-family: 'Big Shoulders Display', sans-serif;
     text-transform: uppercase;
-    font-size: 15px;
+    font-size: 14px;
     letter-spacing: 0.03em;
-    color: #fff;
+    color: var(--ink);
   }
   .caption .date {
-    display: block;
+    display: inline-block;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.04em;
-    color: rgba(255,255,255,0.8);
+    color: var(--stone);
     margin-top: 3px;
   }
 
   /* ---------- about ---------- */
 
   .about-grid {
-    display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 72px;
-    align-items: start;
+    display: none;
   }
 
   .about-photo {
-    aspect-ratio: 3/4;
-    background-image: linear-gradient(160deg,#E7EAE4,#B9C7B9 55%,#87977D);
+    display: none;
   }
 
   .about-text p {
-    font-size: 18px;
-    line-height: 1.75;
-    color: #3A3F36;
-    max-width: 52ch;
+    display: none;
   }
-  .about-text p + p { margin-top: 20px; }
+  .about-text p + p { display: none; }
 
   /* ---------- footer ---------- */
 
@@ -414,14 +395,47 @@
     color: var(--stone);
   }
 
+  .back-to-top {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 60;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(33, 38, 31, 0.2);
+    border-radius: 999px;
+    background: rgba(250, 250, 247, 0.9);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
   /* ---------- responsive ---------- */
 
   @media (max-width: 760px) {
     section { padding: 80px 0; }
     .grid { gap: 18px; }
     .photo {
-      grid-column: span 12;
-      aspect-ratio: 4/5;
+      width: 100%;
+    }
+    .photo .caption {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
     }
     .toggle { margin-top: 4px; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -440,36 +454,22 @@
 
   <header class="site-header">
     <div class="wordmark">Your Name</div>
-    <nav>
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-    </nav>
+    <nav></nav>
   </header>
 
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-title display">Nature<br>& City</div>
-      <div class="hero-meta">
-        FIELD NOTES<br>
-        SELECTED WORKS<br>
-        2020 — 2026
-      </div>
     </div>
-    <div class="scroll-cue">Scroll ↓</div>
   </section>
 
   <section id="work">
     <div class="wrap">
-      <div class="section-head">
-        <h2 class="display">Selected&nbsp;Work</h2>
+      <div class="filter-row">
         <div class="toggle" role="group" aria-label="Filter by category">
           <button type="button" class="toggle-btn active" data-filter="nature">Nature</button>
           <button type="button" class="toggle-btn" data-filter="city">City</button>
         </div>
-      </div>
-
-      <div class="filter-row">
-        <span class="eyebrow">01 — Portfolio</span>
         <div class="search">
           <input type="text" id="location-search" placeholder="Search by location…" autocomplete="off">
         </div>
@@ -483,33 +483,16 @@
     </div>
   </section>
 
-  <section id="about">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 class="display">About</h2>
-        <span class="eyebrow">02 — Notes</span>
-      </div>
-      <div class="about-grid">
-        <div class="about-photo"><!-- portrait or behind-the-scenes shot goes here --></div>
-        <div class="about-text">
-          <p>Replace this paragraph with a short note on how you approach landscape photography — what draws you outdoors, the light or places you return to, the gear or process behind the work.</p>
-          <p>Keep it brief. A portfolio's job is to let the photographs speak; a couple of honest sentences here is usually enough.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <footer>
     <div class="wrap">
       <div class="footer-row">
-        <div class="footer-links">
-          <a href="mailto:you@example.com">Email</a>
-          <a href="https://instagram.com/yourhandle">Instagram</a>
-        </div>
+        <div class="footer-links"></div>
         <div class="copyright">© 2026 Your Name. All rights reserved.</div>
       </div>
     </div>
   </footer>
+
+  <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
 
   <script>
     const SIZE_CYCLE = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
@@ -520,7 +503,19 @@
     const noResults = document.getElementById('no-results');
     const toggleButtons = document.querySelectorAll('.toggle-btn');
     const searchInput = document.getElementById('location-search');
+    const backToTop = document.querySelector('.back-to-top');
     const state = { category: 'nature', query: '' };
+
+    function updateBackToTop() {
+      const shouldShow = window.scrollY > 300;
+      backToTop.classList.toggle('visible', shouldShow);
+    }
+
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    updateBackToTop();
 
     function buildPhotoEl(item, index) {
       const el = document.createElement('div');
