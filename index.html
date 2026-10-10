@@ -275,6 +275,13 @@
     box-shadow: 0 0 0 1px rgba(33, 38, 31, 0.03);
   }
 
+  @media (min-width: 761px) {
+    .photo img {
+      max-height: calc(100vh - 150px);
+      object-fit: contain;
+    }
+  }
+
   .photo.placeholder {
     display: flex;
     min-height: 220px;
