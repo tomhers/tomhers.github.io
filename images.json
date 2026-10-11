@@ -43,6 +43,84 @@
   },
   {
     "category": "nature",
+    "src": "images/nature/hawaii--2026-09-10.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-11.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-12.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-13.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-2.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-3.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-4.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-5.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-6.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-7.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-8.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09-9.jpg",
+    "location": "Hawaii",
+    "date": ""
+  },
+  {
+    "category": "nature",
+    "src": "images/nature/hawaii--2026-09.jpg",
+    "location": "Hawaii",
+    "date": "Sep 2026"
+  },
+  {
+    "category": "nature",
     "src": "images/nature/ithaca--2023-07.jpg",
     "location": "Ithaca",
     "date": "Jul 2023"
@@ -568,6 +646,24 @@
     "src": "images/city/new-york-city--2025-08.jpg",
     "location": "New York City",
     "date": "Aug 2025"
+  },
+  {
+    "category": "city",
+    "src": "images/city/new-york-city--2026-07-2.jpg",
+    "location": "New York City",
+    "date": ""
+  },
+  {
+    "category": "city",
+    "src": "images/city/new-york-city--2026-07-3.jpg",
+    "location": "New York City",
+    "date": ""
+  },
+  {
+    "category": "city",
+    "src": "images/city/new-york-city--2026-07.jpg",
+    "location": "New York City",
+    "date": "Jul 2026"
   },
   {
     "category": "city",
