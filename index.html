@@ -273,7 +273,10 @@
     margin: 0 auto;
     background: #f0f0ee;
     box-shadow: 0 0 0 1px rgba(33, 38, 31, 0.03);
+    cursor: zoom-in;
   }
+
+  .photo img:focus-visible { outline: 2px solid var(--moss); outline-offset: 4px; }
 
   @media (min-width: 761px) {
     .photo img {
@@ -431,6 +434,105 @@
     transform: translateY(0);
   }
 
+  .photo-viewer {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .photo-viewer::backdrop { background: rgba(255, 255, 255, 0.96); }
+
+  .viewer-toolbar {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--hairline);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .viewer-caption { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .viewer-controls { display: flex; align-items: center; gap: 8px; }
+
+  .viewer-zoom-level {
+    min-width: 46px;
+    color: var(--stone);
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .viewer-button {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(33, 38, 31, 0.24);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ink);
+    font: 20px/1 'JetBrains Mono', monospace;
+    cursor: pointer;
+  }
+
+  .viewer-button:hover { background: rgba(33, 38, 31, 0.08); }
+  .viewer-button:focus-visible { outline: 2px solid var(--moss); outline-offset: 2px; }
+
+  .viewer-stage {
+    position: absolute;
+    inset: 58px 0 0;
+    overflow: auto;
+    display: grid;
+    place-items: center;
+    padding: 12px;
+    overscroll-behavior: contain;
+  }
+
+  .viewer-image {
+    display: block;
+    max-width: calc(100vw - 48px);
+    max-height: calc(100vh - 82px);
+    max-height: calc(100dvh - 82px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transform: scale(var(--viewer-zoom, 1));
+    transform-origin: center;
+    transition: transform 0.12s ease-out;
+  }
+
+  .viewer-image[hidden],
+  .viewer-error[hidden] { display: none; }
+
+  .viewer-error {
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  @media (max-width: 520px) {
+    .viewer-toolbar { gap: 8px; padding-inline: 10px; }
+    .viewer-controls { gap: 5px; }
+    .viewer-button { width: 36px; height: 36px; flex-basis: 36px; }
+    .viewer-zoom-level { min-width: 38px; }
+  }
+
   /* ---------- responsive ---------- */
 
   @media (max-width: 760px) {
@@ -501,8 +603,27 @@
 
   <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
 
+  <dialog class="photo-viewer" aria-label="Full-resolution photo viewer">
+    <div class="viewer-toolbar">
+      <span class="viewer-caption" id="viewer-caption"></span>
+      <div class="viewer-controls">
+        <button class="viewer-button" id="viewer-zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+        <button class="viewer-button" id="viewer-reset" type="button" aria-label="Reset zoom" title="Reset zoom">
+          <span class="viewer-zoom-level" id="viewer-zoom-level">100%</span>
+        </button>
+        <button class="viewer-button" id="viewer-zoom-in" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+        <button class="viewer-button" id="viewer-close" type="button" aria-label="Close photo viewer" title="Close">×</button>
+      </div>
+    </div>
+    <div class="viewer-stage" id="viewer-stage">
+      <img class="viewer-image" id="viewer-image" alt="">
+      <p class="viewer-error" id="viewer-error" hidden>Could not load the full-resolution photo.</p>
+    </div>
+  </dialog>
+
   <script>
     const SIZE_CYCLE = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+    const ORIGINALS_BASE = 'https://raw.githubusercontent.com/tomhers/tomhers.github.io/master/';
 
     const grid = document.getElementById('photo-grid');
     const loadingState = document.getElementById('loading-state');
@@ -511,7 +632,67 @@
     const toggleButtons = document.querySelectorAll('.toggle-btn');
     const searchInput = document.getElementById('location-search');
     const backToTop = document.querySelector('.back-to-top');
+    const photoViewer = document.querySelector('.photo-viewer');
+    const viewerImage = document.getElementById('viewer-image');
+    const viewerCaption = document.getElementById('viewer-caption');
+    const viewerError = document.getElementById('viewer-error');
+    const viewerStage = document.getElementById('viewer-stage');
+    const viewerZoomLevel = document.getElementById('viewer-zoom-level');
     const state = { category: 'nature', query: '' };
+    let viewerZoom = 1;
+    let viewerTrigger = null;
+
+    function setViewerZoom(zoom) {
+      viewerZoom = Math.min(4, Math.max(1, zoom));
+      viewerImage.style.setProperty('--viewer-zoom', viewerZoom);
+      viewerZoomLevel.textContent = `${Math.round(viewerZoom * 100)}%`;
+    }
+
+    function openPhotoViewer(item, thumbnail) {
+      const originalPath = item.src.endsWith('.webp') ? item.src.slice(0, -5) : item.src;
+      viewerTrigger = thumbnail;
+      viewerError.hidden = true;
+      viewerImage.hidden = false;
+      viewerImage.alt = item.location;
+      viewerImage.src = new URL(originalPath, ORIGINALS_BASE).href;
+      viewerCaption.textContent = item.date ? `${item.location} · ${item.date}` : item.location;
+      viewerStage.scrollTop = 0;
+      viewerStage.scrollLeft = 0;
+      setViewerZoom(1);
+      photoViewer.showModal();
+      document.getElementById('viewer-close').focus();
+    }
+
+    function closePhotoViewer() {
+      if (photoViewer.open) photoViewer.close();
+    }
+
+    document.getElementById('viewer-zoom-in').addEventListener('click', () => setViewerZoom(viewerZoom + 0.25));
+    document.getElementById('viewer-zoom-out').addEventListener('click', () => setViewerZoom(viewerZoom - 0.25));
+    document.getElementById('viewer-reset').addEventListener('click', () => setViewerZoom(1));
+    document.getElementById('viewer-close').addEventListener('click', closePhotoViewer);
+    photoViewer.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closePhotoViewer();
+      }
+    });
+    viewerImage.addEventListener('error', () => {
+      viewerImage.hidden = true;
+      viewerError.hidden = false;
+    });
+    photoViewer.addEventListener('click', event => {
+      if (event.target === photoViewer || event.target === viewerStage) closePhotoViewer();
+    });
+    photoViewer.addEventListener('close', () => {
+      viewerImage.removeAttribute('src');
+      viewerTrigger?.focus();
+    });
+    viewerStage.addEventListener('wheel', event => {
+      event.preventDefault();
+      setViewerZoom(viewerZoom + (event.deltaY < 0 ? 0.2 : -0.2));
+    }, { passive: false });
+    viewerImage.addEventListener('dblclick', () => setViewerZoom(viewerZoom === 1 ? 2 : 1));
 
     function updateBackToTop() {
       const shouldShow = window.scrollY > 300;
@@ -532,8 +713,18 @@
       const img = document.createElement('img');
       img.src = item.src;
       img.alt = item.location;
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', `View full-resolution ${item.location} photo`);
       img.loading = index === 0 ? 'eager' : 'lazy';
       if (index === 0) img.fetchPriority = 'high';
+      img.addEventListener('click', () => openPhotoViewer(item, img));
+      img.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openPhotoViewer(item, img);
+        }
+      });
       img.onerror = () => {
         img.remove();
         el.classList.add('placeholder');
