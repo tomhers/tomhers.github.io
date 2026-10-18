@@ -14,9 +14,19 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const IMAGES_ROOT = path.join(ROOT, 'images');
+const args = process.argv.slice(2);
+const optimized = args.includes('--optimized');
+const outputDirIndex = args.indexOf('--output-dir');
+const OUTPUT_ROOT = outputDirIndex === -1
+  ? ROOT
+  : path.resolve(args[outputDirIndex + 1]);
 const CATEGORIES = ['nature', 'city'];
 const EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp'];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+if (optimized && outputDirIndex === -1) {
+  throw new Error('--optimized requires --output-dir so the manifest matches the built site.');
+}
 
 function humanize(slug) {
   return slug
@@ -48,19 +58,25 @@ for (const category of CATEGORIES) {
   for (const file of files) {
     const base = path.basename(file, path.extname(file));
     const [slugPart, datePart] = base.split('--');
+    const optimizedFile = `${file}.webp`;
+
+    if (optimized && !fs.existsSync(path.join(OUTPUT_ROOT, 'images', category, optimizedFile))) {
+      throw new Error(`Optimized image not found: ${path.join(OUTPUT_ROOT, 'images', category, optimizedFile)}`);
+    }
 
     manifest.push({
       category,
-      src: `images/${category}/${file}`,
+      src: `images/${category}/${optimized ? optimizedFile : file}`,
       location: humanize(slugPart || base),
       date: formatDate(datePart),
     });
   }
 }
 
+fs.mkdirSync(OUTPUT_ROOT, { recursive: true });
 fs.writeFileSync(
-  path.join(ROOT, 'images.json'),
+  path.join(OUTPUT_ROOT, 'images.json'),
   JSON.stringify(manifest, null, 2) + '\n'
 );
 
-console.log(`images.json written with ${manifest.length} photo(s).`);
+console.log(`images.json written with ${manifest.length} photo(s) to ${OUTPUT_ROOT}.`);

@@ -11,4 +11,5 @@ vendor
 .venv
 *.Identifier
 **/__pycache__/
+/dist/
 

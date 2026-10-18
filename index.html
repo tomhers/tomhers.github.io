@@ -532,7 +532,8 @@
       const img = document.createElement('img');
       img.src = item.src;
       img.alt = item.location;
-      img.loading = 'lazy';
+      img.loading = index === 0 ? 'eager' : 'lazy';
+      if (index === 0) img.fetchPriority = 'high';
       img.onerror = () => {
         img.remove();
         el.classList.add('placeholder');
