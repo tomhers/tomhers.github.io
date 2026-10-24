@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'images/**'
+      - 'ratings.json'
       - 'scripts/build-manifest.js'
       - 'scripts/optimize_images.py'
       - 'requirements.txt'

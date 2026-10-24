@@ -14,6 +14,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const IMAGES_ROOT = path.join(ROOT, 'images');
+const RATINGS_FILE = path.join(ROOT, 'ratings.json');
 const args = process.argv.slice(2);
 const optimized = args.includes('--optimized');
 const outputDirIndex = args.indexOf('--output-dir');
@@ -26,6 +27,21 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 
 if (optimized && outputDirIndex === -1) {
   throw new Error('--optimized requires --output-dir so the manifest matches the built site.');
+}
+
+function loadRatings() {
+  if (!fs.existsSync(RATINGS_FILE)) return {};
+
+  const ratings = JSON.parse(fs.readFileSync(RATINGS_FILE, 'utf8'));
+  if (!ratings || typeof ratings !== 'object' || Array.isArray(ratings)) {
+    throw new Error(`${RATINGS_FILE} must contain a JSON object.`);
+  }
+  for (const [photo, rating] of Object.entries(ratings)) {
+    if (!Number.isInteger(rating) || rating < 0 || rating > 5) {
+      throw new Error(`Invalid rating for ${photo}: expected an integer from 0 to 5.`);
+    }
+  }
+  return ratings;
 }
 
 function humanize(slug) {
@@ -45,6 +61,7 @@ function formatDate(yyyyMm) {
   return `${MONTHS[monthIndex]} ${year}`;
 }
 
+const ratings = loadRatings();
 const manifest = [];
 
 for (const category of CATEGORIES) {
@@ -59,6 +76,9 @@ for (const category of CATEGORIES) {
     const base = path.basename(file, path.extname(file));
     const [slugPart, datePart] = base.split('--');
     const optimizedFile = `${file}.webp`;
+    const rating = ratings[`images/${category}/${file}`];
+
+    if (rating === 0) continue;
 
     if (optimized && !fs.existsSync(path.join(OUTPUT_ROOT, 'images', category, optimizedFile))) {
       throw new Error(`Optimized image not found: ${path.join(OUTPUT_ROOT, 'images', category, optimizedFile)}`);
@@ -69,6 +89,7 @@ for (const category of CATEGORIES) {
       src: `images/${category}/${optimized ? optimizedFile : file}`,
       location: humanize(slugPart || base),
       date: formatDate(datePart),
+      rating,
     });
   }
 }

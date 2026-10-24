@@ -31,6 +31,23 @@ and deploys the optimized site. Your full-resolution originals stay untouched
 in `images/` and are not included in the deployed site. Set GitHub Pages' build
 source to **GitHub Actions** once in the repository's Pages settings.
 
+## Rating photos
+
+Install [Chafa](https://hpjansson.org/chafa/) and make sure `chafa` is on your
+PATH. Then run:
+
+```
+python scripts/rate_photos.py
+```
+
+The script previews every photo in `images/nature/` and `images/city/` with
+Chafa, asks for a rating from 0 to 5, and saves each answer to `ratings.json`.
+Ratings are included in `images.json` during the build. The portfolio shows
+higher-rated photos first by default, hides photos rated 0, and keeps unrated
+photos visible. Searching for a location keeps the original manifest order.
+Use `--images-root` or `--ratings-file` to override the default paths, and
+enter `q` to stop while keeping saved ratings.
+
 ## Testing locally
 
 Browsers block `fetch()` of local files opened directly (`file://`), so

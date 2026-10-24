@@ -709,6 +709,8 @@
       const el = document.createElement('div');
       el.className = `photo size-${SIZE_CYCLE[index % SIZE_CYCLE.length]}`;
       el.dataset.category = item.category;
+      el.dataset.originalOrder = String(index);
+      el.dataset.rating = String(Number.isInteger(item.rating) ? item.rating : 0);
 
       const img = document.createElement('img');
       img.src = item.src;
@@ -766,6 +768,9 @@
         const matchesCategory = state.query !== '' || p.dataset.category === state.category;
         const visible = matchesQuery && matchesCategory;
         p.style.display = visible ? '' : 'none';
+        p.style.order = state.query !== ''
+          ? p.dataset.originalOrder
+          : String(5 - Number(p.dataset.rating));
         if (visible) visibleCount++;
       });
       noResults.classList.toggle('show', visibleCount === 0);
@@ -796,12 +801,13 @@
       .then(res => res.json())
       .then(items => {
         loadingState.remove();
-        if (!items.length) {
+        const visibleItems = items.filter(item => item.rating !== 0);
+        if (!visibleItems.length) {
           emptyState.classList.add('show');
           return;
         }
         const fragment = document.createDocumentFragment();
-        items.forEach((item, index) => fragment.appendChild(buildPhotoEl(item, index)));
+        visibleItems.forEach((item, index) => fragment.appendChild(buildPhotoEl(item, index)));
         grid.appendChild(fragment);
 
         const photos = document.querySelectorAll('.photo');
